@@ -47,7 +47,7 @@ bindkey -s "^[Oo" "/"
 
 # Load the shell dotfiles, and then some:
 # * ~/.dotfiles-custom can be used for other settings you don’t want to commit.
-for file in ~/.dotfiles/home/.{exports,aliases,functions}; do
+for file in ~/.dotfiles/home/.{exports,aliases,functions,vpn}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 
@@ -104,8 +104,27 @@ if command -v fnm &> /dev/null; then
 fi
 
 # bun completions
-[ -s "/Users/freek/.bun/_bun" ] && source "/Users/freek/.bun/_bun"
+[ -s "/Users/andhes/.bun/_bun" ] && source "/Users/andhes/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="/opt/homebrew/opt:$PATH"
+eval "$(pyenv init -)"
+
+alias claude-mem='bun "/Users/andhes/.claude/plugins/cache/thedotmack/claude-mem/10.6.3/scripts/worker-service.cjs"'
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/andhes/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/andhes/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions

@@ -15,7 +15,12 @@
       "cmd-shift-c": "terminal_panel::ToggleFocus",
       "cmd-e": "file_finder::Toggle",
       "cmd-y": "outline::Toggle",
-      "cmd-:": ["editor::ToggleComments", { "advance_downwards": false }],
+      "cmd-:": [
+        "editor::ToggleComments",
+        {
+          "advance_downwards": false
+        }
+      ],
       "alt-space": "editor::Hover",
       "cmd-shift-g": "editor::OpenPermalinkToLine",
       "cmd-alt-l": "editor::Format",
@@ -52,6 +57,15 @@
     "bindings": {
       "ctrl-v": "pane::SplitRight",
       "ctrl-h": "pane::SplitDown"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "shift-enter": [
+        "terminal::SendText",
+        "\u001b\r"
+      ]
     }
   }
 ]

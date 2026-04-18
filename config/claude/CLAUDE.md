@@ -16,3 +16,6 @@ When working with Laravel/PHP projects, always use the php-guidelines-from-spati
 For questions about GitHub, use the gh tool
 Never mention Claude Code in PR descriptions, PR comments, or issue comments
 Do not include a "Test plan" section in PR descriptions
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
