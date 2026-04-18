@@ -1,0 +1,78 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      }
+    },
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      }
+    },
+    "kubernetes": {
+      "type": "local",
+      "command": ["npx", "-y", "kubernetes-mcp-server@latest", "--read-only"]
+    },
+    "ssh-nadanupo": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "ssh-mcp@latest",
+        "--",
+        "--host=10.11.83.253",
+        "--user=andhes",
+        "--sudoPassword=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "--suPassword=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "--key=/Users/andhes/.ssh/id_ed25519"
+      ]
+    },
+    "lightrag-mcp": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "lightrag-mcp",
+        "--host",
+        "localhost",
+        "--port",
+        "9621"
+      ]
+    },
+    "lmstudio": {
+      "type": "local",
+      "command": ["npx", "-y", "@portertech/lm-studio-mcp-server"],
+      "environment": {
+        "LMSTUDIO_HOST": "127.0.0.1",
+        "LMSTUDIO_PORT": "1234"
+      }
+    }
+  },
+  "provider": {
+    "campusai": {
+      "api": "https://api.campusai.compute.dtu.dk/v1",
+      "name": "CampusAI",
+      "env": ["CAMPUSAI_API_KEY"],
+      "options": {
+        "apiKey": "XXXXXXXXXXXXXXXX"
+      },
+      "models": {
+        "Gemma 4": {
+          "id": "Gemma 4",
+          "name": "Gemma 4",
+          "family": "Gemma 4"
+        },
+        "Qwen3.5 35B": {
+          "id": "Qwen3.5 35B",
+          "name": "Qwen3.5 35B",
+          "family": "Qwen3.5 35B"
+        }
+      }
+    }
+  }
+}
