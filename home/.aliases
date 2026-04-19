@@ -52,7 +52,7 @@ alias l="ls -laF"
 alias vscode='code "`pwd`"'
 
 # Zed
-alias zed='open -a /Applications/Zed.app "`pwd`"'
+alias zed='open -a /Applications/Zed.app'
 
 # Redis
 alias flush-redis="redis-cli FLUSHALL"

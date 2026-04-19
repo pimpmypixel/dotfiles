@@ -47,7 +47,7 @@ bindkey -s "^[Oo" "/"
 
 # Load the shell dotfiles, and then some:
 # * ~/.dotfiles-custom can be used for other settings you don’t want to commit.
-for file in ~/.dotfiles/home/.{exports,aliases,functions,vpn}; do
+for file in ~/.dotfiles/home/.{exports,aliases,functions,vpn,env}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 

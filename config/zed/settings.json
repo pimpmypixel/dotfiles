@@ -2,9 +2,31 @@
 // Matched to PhpStorm / VS Code setup
 {
   // Theme - light, matching IntelliJ
+  "context_servers": {
+    "kubernetes": {
+      "enabled": true,
+      "remote": false,
+      "command": "npx",
+      "args": [
+        "-y",
+        "kubernetes-mcp-server@latest",
+        "--read-only"
+      ],
+      "env": {
+        "KUBECONFIG": "/Users/andhes/.kube/config"
+      }
+    },
+    "mcp-server-gitlab": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "gitlab_personal_access_token": "glpat-976hMkCJb6r1h5bAAKKIjm86MQp1OjJ6CA.01.0y0ssaeds",
+      },
+    },
+  },
   "tabs": {
     "git_status": true,
-    "file_icons": true
+    "file_icons": true,
   },
   "language_models": {
     "openai_compatible": {
@@ -21,23 +43,42 @@
               "images": false,
               "parallel_tool_calls": false,
               "prompt_cache_key": false,
-              "chat_completions": true
-            }
-          }
-        ]
-      }
-    }
+              "chat_completions": true,
+            },
+          },
+        ],
+      },
+    },
   },
   "agent_servers": {
+    "opencode": {
+      "type": "registry",
+      "favorite_config_option_values": {
+        "model": [
+          "campusai/Gemma 4",
+          "campusai/Qwen3.5 35B",
+          "nvidia/z-ai/glm5",
+          "nvidia/qwen/qwen3.5-397b-a17b",
+        ],
+      },
+    },
     "factory-droid": {
-      "type": "registry"
+      "type": "registry",
     },
     "github-copilot-cli": {
-      "type": "registry"
+      "type": "registry",
     },
     "claude-acp": {
-      "type": "registry"
-    }
+      "favorite_config_option_values": {
+        "mode": [
+          "auto"
+        ]
+      },
+      "default_config_options": {
+        "model": "haiku"
+      },
+      "type": "registry",
+    },
   },
   "base_keymap": "JetBrains",
   "icon_theme": "Material Icon Theme",
@@ -76,7 +117,7 @@
   },
   "edit_predictions": {
     "open_ai_compatible_api": {
-      "max_output_tokens": 64
+      "max_output_tokens": 64,
     },
     "provider": "copilot",
   },
@@ -210,32 +251,32 @@
       "default": "allow",
       "tools": {
         "search_web": {
-          "default": "allow"
+          "default": "allow",
         },
         "fetch": {
-          "default": "allow"
+          "default": "allow",
         },
         "create_directory": {
-          "default": "allow"
+          "default": "allow",
         },
         "move_path": {
-          "default": "allow"
+          "default": "allow",
         },
         "copy_path": {
-          "default": "allow"
+          "default": "allow",
         },
         "edit_file": {
-          "default": "allow"
+          "default": "allow",
         },
         "terminal": {
-          "default": "allow"
-        }
-      }
+          "default": "allow",
+        },
+      },
     },
     "default_model": {
       "provider": "nvidia",
       "model": "zai-org/GLM-4.7",
-      "enable_thinking": false
+      "enable_thinking": false,
     },
     "enabled": true,
   },

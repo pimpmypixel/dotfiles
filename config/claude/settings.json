@@ -1,4 +1,7 @@
 {
+  "env": {
+    "GITLAB_TOKEN": "glpat-976hMkCJb6r1h5bAAKKIjm86MQp1OjJ6CA.01.0y0ssaeds"
+  },
   "permissions": {
     "allow": [
       "Skill(ray-skill:*)",
@@ -63,13 +66,20 @@
   "enabledPlugins": {
     "laravel-simplifier@laravel": true,
     "agent-browser@agent-browser": true,
-    "claude-mem@thedotmack": true
+    "claude-mem@thedotmack": true,
+    "andrej-karpathy-skills@karpathy-skills": true
   },
   "extraKnownMarketplaces": {
     "thedotmack": {
       "source": {
         "source": "github",
         "repo": "thedotmack/claude-mem"
+      }
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
       }
     }
   },
