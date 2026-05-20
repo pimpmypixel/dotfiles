@@ -2,19 +2,17 @@
 // Matched to PhpStorm / VS Code setup
 {
   // Theme - light, matching IntelliJ
+  "proxy": "",
+  "mouse_wheel_zoom": true,
   "context_servers": {
     "kubernetes": {
       "enabled": true,
       "remote": false,
       "command": "npx",
-      "args": [
-        "-y",
-        "kubernetes-mcp-server@latest",
-        "--read-only"
-      ],
+      "args": ["-y", "kubernetes-mcp-server@latest", "--read-only"],
       "env": {
-        "KUBECONFIG": "/Users/andhes/.kube/config"
-      }
+        "KUBECONFIG": "/Users/andhes/.kube/config",
+      },
     },
     "mcp-server-gitlab": {
       "enabled": true,
@@ -30,6 +28,37 @@
   },
   "language_models": {
     "openai_compatible": {
+      "campusai": {
+        "api_url": "https://api.campusai.compute.dtu.dk/v1",
+        "available_models": [
+          {
+            "name": "Gemma 4",
+            "max_tokens": 65536,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+            },
+          },
+          {
+            "name": "Qwen3.6 35B MoE",
+            "max_tokens": 32000,
+            "max_output_tokens": 32000,
+            "max_completion_tokens": 200000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": true,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+            },
+          },
+        ],
+      },
       "nvidia": {
         "api_url": "https://integrate.api.nvidia.com/v1",
         "available_models": [
@@ -56,9 +85,9 @@
       "favorite_config_option_values": {
         "model": [
           "campusai/Gemma 4",
-          "campusai/Qwen3.5 35B",
           "nvidia/z-ai/glm5",
           "nvidia/qwen/qwen3.5-397b-a17b",
+          "campusai/Qwen3.6 35B MoE"
         ],
       },
     },
@@ -70,12 +99,10 @@
     },
     "claude-acp": {
       "favorite_config_option_values": {
-        "mode": [
-          "auto"
-        ]
+        "mode": ["auto"],
       },
       "default_config_options": {
-        "model": "haiku"
+        "model": "haiku",
       },
       "type": "registry",
     },
@@ -104,8 +131,8 @@
     },
   },
   "title_bar": {
+    "show_branch_status_icon": true,
     "show_branch_name": true,
-    "show_branch_icon": true,
     "show_menus": true,
     "show_sign_in": false,
     "show_onboarding_banner": false,
@@ -117,6 +144,7 @@
   },
   "edit_predictions": {
     "open_ai_compatible_api": {
+      "api_url": "https://api.campusai.compute.dtu.dk/v1",
       "max_output_tokens": 64,
     },
     "provider": "copilot",
@@ -228,6 +256,7 @@
 
   // Hide status bar items
   "outline_panel": {
+    "dock": "left",
     "button": false,
   },
   "collaboration_panel": {
@@ -235,6 +264,7 @@
     "dock": "right",
   },
   "git_panel": {
+    "dock": "left",
     "button": false,
   },
   "notification_panel": {
@@ -246,6 +276,9 @@
 
   // Disable AI features for minimal UI
   "agent": {
+    "thinking_display": "always_collapsed",
+    "notify_when_agent_waiting": "all_screens",
+    "dock": "right",
     "enable_feedback": false,
     "tool_permissions": {
       "default": "allow",
@@ -274,8 +307,8 @@
       },
     },
     "default_model": {
-      "provider": "nvidia",
-      "model": "zai-org/GLM-4.7",
+      "provider": "campusai",
+      "model": "Qwen3.6 35B MoE",
       "enable_thinking": false,
     },
     "enabled": true,

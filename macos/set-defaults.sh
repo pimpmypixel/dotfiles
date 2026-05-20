@@ -152,6 +152,7 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool false
+defaults write com.apple.finder AppleShowAllExtensions -bool false
 
 # Finder: allow text selection in Quick Look
 defaults write com.apple.finder QLEnableTextSelection -bool true

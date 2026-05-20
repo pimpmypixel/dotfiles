@@ -4,7 +4,6 @@ vpn() {
     local VPN_SERVER="https://vpn.dtu.dk"
     local PID_FILE="/tmp/openconnect_vpn.pid"
 
-    # Colors
     local RED='\033[1;31m'
     local GREEN='\033[1;32m'
     local YELLOW='\033[1;33m'
@@ -12,57 +11,122 @@ vpn() {
     local BOLD='\033[1m'
     local NC='\033[0m'
 
+    if [[ ! -f "$HOME/.bw_password" ]]; then
+        echo -e "${RED}Error: No Bitwarden master password file found at $HOME/.bw_password${NC}"
+        return 1
+    fi
+
+    local BW_PASS
+    BW_PASS=$(tr -d '\n' < "$HOME/.bw_password")
+
+    _vpn_ssid() {
+        networksetup -getairportnetwork en0 2>/dev/null | sed 's/Current Wi-Fi Network: //'
+    }
+
+    _vpn_reset_dns() {
+        local ssid
+        ssid=$(_vpn_ssid)
+        if [[ "$ssid" != "DTUsecure" ]]; then
+            echo -e "${YELLOW}Resetting DNS to automatic (SSID: $ssid)...${NC}"
+            sudo networksetup -setdnsservers Wi-Fi Empty 2>/dev/null
+            sudo networksetup -setdhcp Wi-Fi 2>/dev/null
+            echo -e "${GREEN}✔ DNS reset to automatic.${NC}"
+        fi
+    }
+
     case "$1" in
         start)
-            if [[ -f $PID_FILE ]]; then
-                echo -e "${YELLOW}VPN already running (PID: $(cat $PID_FILE)).${NC}"
+            if [[ -f "$PID_FILE" ]]; then
+                local existing_pid
+                existing_pid=$(cat "$PID_FILE")
+                if ps -p "$existing_pid" > /dev/null 2>&1; then
+                    echo -e "${YELLOW}VPN already running (PID: ${existing_pid}).${NC}"
+                    return 1
+                fi
+                echo -e "${YELLOW}Removing stale PID file.${NC}"
+                rm -f "$PID_FILE"
+            fi
+
+            echo -e "${BLUE}Unlocking Bitwarden...${NC}"
+            local BW_SESSION
+            BW_SESSION=$(bw unlock "$BW_PASS" --raw 2>&1)
+            if [[ $? -ne 0 || -z "$BW_SESSION" ]]; then
+                echo -e "${RED}Error: Failed to unlock Bitwarden.${NC}"
+                [[ -n "$BW_SESSION" ]] && echo -e "${RED}$BW_SESSION${NC}"
                 return 1
             fi
 
-            # Bitwarden Unlock Logic
-            if [[ -z "$BW_SESSION" ]]; then
-                echo -e "${YELLOW}No session found. Unlocking Vault...${NC}"
-                export BW_SESSION=$(bw unlock --raw)
-            fi
+            echo -e "${BLUE}Fetching credentials...${NC}"
+            local VPN_USER VPN_PASS VPN_TOTP
+            VPN_USER=$(bw --session "$BW_SESSION" get username "$VPN_ITEM_NAME")
+            [[ $? -ne 0 || -z "$VPN_USER" ]] && { echo -e "${RED}Error: Failed to fetch username.${NC}"; return 1; }
 
-            if ! bw status | grep -q "unlocked"; then
-                echo -e "${RED}Error: Vault is locked.${NC}"
+            VPN_PASS=$(bw --session "$BW_SESSION" get password "$VPN_ITEM_NAME")
+            [[ $? -ne 0 || -z "$VPN_PASS" ]] && { echo -e "${RED}Error: Failed to fetch password.${NC}"; return 1; }
+
+            VPN_TOTP=$(bw --session "$BW_SESSION" get totp "$VPN_ITEM_NAME")
+            [[ $? -ne 0 || -z "$VPN_TOTP" ]] && { echo -e "${RED}Error: Failed to fetch TOTP.${NC}"; return 1; }
+
+            echo -e "${GREEN}Launching OpenConnect...${NC}"
+            printf '%s\n%s\n' "$VPN_PASS" "$VPN_TOTP" | \
+                sudo openconnect "$VPN_SERVER" -u "$VPN_USER" --passwd-on-stdin --background --pid-file="$PID_FILE" --useragent=AnyConnect
+
+            if [[ $? -ne 0 ]]; then
+                echo -e "${RED}Error: OpenConnect failed to start.${NC}"
+                rm -f "$PID_FILE"
                 return 1
             fi
 
-            echo -e "${BLUE}🔑 Fetching credentials...${NC}"
-            local USER=$(bw get username "$VPN_ITEM_NAME")
-            local PASS=$(bw get password "$VPN_ITEM_NAME")
-            local TOTP=$(bw get totp "$VPN_ITEM_NAME")
-
-            echo -e "${GREEN}🚀 Launching OpenConnect...${NC}"
-            printf "%s\n%s\n" "$PASS" "$TOTP" | \
-            sudo openconnect "$VPN_SERVER" -u "$USER" --passwd-on-stdin --background --pid-file=$PID_FILE --useragent=AnyConnect
+            sleep 1
+            if [[ ! -f "$PID_FILE" ]] || ! ps -p "$(cat "$PID_FILE" 2>/dev/null)" > /dev/null 2>&1; then
+                echo -e "${RED}Error: VPN process exited immediately — tunnel setup failed (check sudo permissions).${NC}"
+                rm -f "$PID_FILE"
+                return 1
+            fi
 
             echo -e "${GREEN}${BOLD}✔ VPN started.${NC}"
             ;;
 
         stop)
-            if [[ -f $PID_FILE ]]; then
-                local PID=$(cat $PID_FILE)
-                echo -e "${YELLOW}Stopping VPN (PID: $PID)...${NC}"
-                sudo kill -SIGINT "$PID"
-                sudo rm "$PID_FILE"
-                echo -e "${GREEN}✔ Connection closed.${NC}"
-            else
+            if [[ ! -f "$PID_FILE" ]]; then
                 echo -e "${RED}No active VPN process found.${NC}"
+                return 1
             fi
+
+            local PID
+            PID=$(cat "$PID_FILE")
+            echo -e "${YELLOW}Stopping VPN (PID: ${PID})...${NC}"
+            sudo kill -SIGINT "$PID" 2>/dev/null
+
+            local waited=0
+            while ps -p "$PID" > /dev/null 2>&1 && [[ $waited -lt 10 ]]; do
+                sleep 0.5
+                (( waited++ ))
+            done
+
+            if ps -p "$PID" > /dev/null 2>&1; then
+                echo -e "${YELLOW}Process didn't exit cleanly, sending SIGKILL...${NC}"
+                sudo kill -9 "$PID" 2>/dev/null
+            fi
+
+            rm -f "$PID_FILE"
+            echo -e "${GREEN}✔ Connection closed.${NC}"
+            _vpn_reset_dns
             ;;
 
         status)
-            if [[ -f $PID_FILE ]] && ps -p $(cat $PID_FILE) > /dev/null; then
-                echo -e "Status: ${GREEN}${BOLD}RUNNING${NC}"
-                echo -e "${BLUE}Interface Details:${NC}"
-                ifconfig | grep -A 4 "utun" || echo "No utun interface detected."
-            else
-                echo -e "Status: ${RED}${BOLD}STOPPED${NC}"
-                [[ -f $PID_FILE ]] && sudo rm $PID_FILE
+            if [[ -f "$PID_FILE" ]]; then
+                local pid
+                pid=$(cat "$PID_FILE")
+                if ps -p "$pid" > /dev/null 2>&1; then
+                    echo -e "Status: ${GREEN}${BOLD}RUNNING${NC} (PID: $pid)"
+                    ifconfig | grep -A 4 "utun" || echo "No utun interface detected."
+                    return 0
+                fi
+                echo -e "${YELLOW}Stale PID file detected, cleaning up.${NC}"
+                rm -f "$PID_FILE"
             fi
+            echo -e "Status: ${RED}${BOLD}STOPPED${NC}"
             ;;
 
         *)

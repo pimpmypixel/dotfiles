@@ -58,7 +58,6 @@
     ],
     "defaultMode": "acceptEdits"
   },
-  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
@@ -84,5 +83,6 @@
     }
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
   "skipDangerousModePermissionPrompt": true
 }

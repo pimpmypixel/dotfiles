@@ -16,10 +16,12 @@ brew "doctl"
 brew "tmux"
 brew "pyenv"
 brew "uv"
+cask "bitwarden"
 brew "bitwarden-cli"
 brew "git-secret"
 brew "imagemagick"
 brew "mackup"
+brew "tree"
 
 # Zsh
 brew "zsh-autosuggestions"
@@ -45,13 +47,15 @@ brew "retlehs/tap/quien"
 # Development tools
 brew "micro"
 cask "claude-code"
+brew "poppler"
+brew "tesseract"
+
 # brew "opencode"
 cask "zed"
 cask "clipy"
 cask "ghostty"
 cask "obsidian"
 cask "core-tunnel"
-
 
 # QuickLook plugins
 cask "qlcolorcode"

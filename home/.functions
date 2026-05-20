@@ -72,10 +72,15 @@ function commit() {
       { kill $spinner_pid; wait $spinner_pid; } 2>/dev/null
       printf "\r\033[K"
 
-      if [ "$is_wip" = "1" ]; then
-        commitMessage="WIP: $generatedMessage"
+      if echo "$generatedMessage" | grep -q "You've hit your limit"; then
+        echo "API limit reached. Please enter your commit message:"
+        read -r commitMessage
       else
-        commitMessage="$generatedMessage"
+        if [ "$is_wip" = "1" ]; then
+          commitMessage="WIP: $generatedMessage"
+        else
+          commitMessage="$generatedMessage"
+        fi
       fi
 
       git commit -m "$commitMessage"
@@ -124,4 +129,50 @@ function git-prune-local() {
 
 function clone() {
   gh repo clone "$1" "${@:2}"
+}
+
+function gbump() {
+  local level=$1
+  if [[ ! "$level" =~ ^(major|minor|patch)$ ]]; then
+    echo "Usage: gbump {major|minor|patch}"
+    return 1
+  fi
+
+  # Get the latest tag, removing 'v' prefix if present
+  local latest_tag=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+  if [[ -z "$latest_tag" ]]; then
+    latest_tag="0.0.0"
+  fi
+
+  # Parse major, minor, patch
+  IFS='.' read -r major minor patch <<< "$latest_tag"
+
+  case "$level" in
+    major)
+      major=$((major + 1))
+      minor=0
+      patch=0
+      ;;
+    minor)
+      minor=$((minor + 1))
+      patch=0
+      ;;
+    patch)
+      patch=$((patch + 1))
+      ;;
+  esac
+
+  local new_tag="$major.$minor.$patch"
+
+  # Check if tag already exists
+  if git rev-parse "v$new_tag" >/dev/null 2>&1; then
+    echo "Tag v$new_tag already exists."
+    return 1
+  fi
+
+  # Create annotated tag and push
+  git tag -a "v$new_tag" -m "Bump $level version to v$new_tag"
+  git push origin "v$new_tag"
+
+  echo "Bumped to v$new_tag"
 }

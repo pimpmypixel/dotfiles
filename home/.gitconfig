@@ -49,3 +49,6 @@
 
 [diff]
 	colorMoved = default
+[safe]
+	directory = /Users/andhes/Portal/Packages/DTUFoodIAM
+	directory = /Users/andhes/Portal/Packages/PortalFVDB
