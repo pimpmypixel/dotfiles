@@ -64,22 +64,22 @@ Instant file previews in Finder: code files, markdown, JSON, CSV, patches, and a
 
 The installation creates symlinks from your home directory to the dotfiles repository. This allows you to version control your configuration while keeping files in their expected locations.
 
-| Symlink Location | Points To | Purpose |
-|-----------------|-----------|---------|
-| `~/.zshrc` | `~/.dotfiles/home/.zshrc` | Main Zsh configuration (Oh My Zsh with custom agnoster theme) |
-| `~/.gitconfig` | `~/.dotfiles/home/.gitconfig` | Git configuration with delta diff viewer |
-| `~/.global-gitignore` | `~/.dotfiles/home/.global-gitignore` | Global Git ignore patterns |
-| `~/.vimrc` | `~/.dotfiles/home/.vimrc` | Vim configuration |
-| `~/.vim/` | `~/.dotfiles/home/.vim/` | Vim runtime files |
-| `~/.mackup.cfg` | `~/.dotfiles/macos/.mackup.cfg` | Mackup backup configuration |
-| `~/.claude/skills` | `~/.dotfiles/config/claude/skills/` | All Claude Code skills (version-controlled) |
-| `~/.claude/agents` | `~/.dotfiles/config/claude/agents/` | All Claude Code agents (version-controlled) |
-| `~/.claude/CLAUDE.md` | `~/.dotfiles/config/claude/CLAUDE.md` | Claude Code configuration |
-| `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards |
-| `~/.claude/settings.json` | `~/.dotfiles/config/claude/settings.json` | Claude Code settings |
-| `~/.config/zed/settings.json` | `~/.dotfiles/config/zed/settings.json` | Zed editor settings |
-| `~/.config/zed/keymap.json` | `~/.dotfiles/config/zed/keymap.json` | Zed custom keybindings |
-| `~/.config/ghostty/config` | `~/.dotfiles/config/ghostty/config` | Ghostty terminal settings |
+| Symlink Location                      | Points To                                             | Purpose                                                       |
+| ------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------- |
+| `~/.zshrc`                            | `~/.dotfiles/home/.zshrc`                             | Main Zsh configuration (Oh My Zsh with custom agnoster theme) |
+| `~/.gitconfig`                        | `~/.dotfiles/home/.gitconfig`                         | Git configuration with delta diff viewer                      |
+| `~/.global-gitignore`                 | `~/.dotfiles/home/.global-gitignore`                  | Global Git ignore patterns                                    |
+| `~/.vimrc`                            | `~/.dotfiles/home/.vimrc`                             | Vim configuration                                             |
+| `~/.vim/`                             | `~/.dotfiles/home/.vim/`                              | Vim runtime files                                             |
+| `~/.mackup.cfg`                       | `~/.dotfiles/macos/.mackup.cfg`                       | Mackup backup configuration                                   |
+| `~/.claude/skills`                    | `~/.dotfiles/config/claude/skills/`                   | All Claude Code skills (version-controlled)                   |
+| `~/.claude/agents`                    | `~/.dotfiles/config/claude/agents/`                   | All Claude Code agents (version-controlled)                   |
+| `~/.claude/CLAUDE.md`                 | `~/.dotfiles/config/claude/CLAUDE.md`                 | Claude Code configuration                                     |
+| `~/.claude/laravel-php-guidelines.md` | `~/.dotfiles/config/claude/laravel-php-guidelines.md` | Laravel coding standards                                      |
+| `~/.claude/settings.json`             | `~/.dotfiles/config/claude/settings.json`             | Claude Code settings                                          |
+| `~/.config/zed/settings.json`         | `~/.dotfiles/config/zed/settings.json`                | Zed editor settings                                           |
+| `~/.config/zed/keymap.json`           | `~/.dotfiles/config/zed/keymap.json`                  | Zed custom keybindings                                        |
+| `~/.config/ghostty/config`            | `~/.dotfiles/config/ghostty/config`                   | Ghostty terminal settings                                     |
 
 To manually symlink the Zed configuration (if not using `bin/install`):
 
@@ -102,12 +102,14 @@ These files are loaded by `.zshrc` but remain in the dotfiles directory:
 The default configuration uses a customized agnoster theme stored in `oh-my-zsh-custom/themes/agnoster.zsh-theme`:
 
 **Customizations:**
+
 - No git branch symbol (cleaner look)
 - Uses `•` for unstaged changes instead of `±`
 - Powerline arrows for segment separators
 - Requires a font with powerline glyphs
 
 **Git Status Symbols:**
+
 - `✚` - Staged changes (files added with `git add`)
 - `•` - Unstaged changes (modified files not yet staged)
 - Yellow background - Uncommitted changes
@@ -193,7 +195,7 @@ brew bundle --file=~/.dotfiles/config/Brewfile
 
 **Complete package list:**
 
-- **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, 1password-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
+- **Core**: node, php, composer, pkg-config, wget, httpie, ncdu, hub, ack, doctl, bitwarden-cli, git-secret, imagemagick, mysql, yarn, ghostscript, mackup
 - **Modern CLI**: zoxide, bat, eza, ripgrep, fd, git-delta, fnm, fzf, direnv, jq, yq, bottom, zsh-autosuggestions
 - **QuickLook**: qlcolorcode, qlstephen, qlmarkdown, quicklook-json, qlprettypatch, quicklook-csv, betterzip, suspicious-package
 - **PHP Extensions**: imagick, memcached, xdebug, redis
@@ -224,11 +226,13 @@ curl -fsSL https://raw.githubusercontent.com/freekmurze/dotfiles/main/bin/instal
 All skills are stored in `config/claude/skills/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all skills are immediately available.
 
 **Custom Skills:**
+
 - `ray-skill` - Ray debugging integration
 - `fix-github-issue` - GitHub issue automation
 - `convert-issue-to-discussion` - GitHub workflow helpers
 
 **Community Skills:**
+
 - `vercel-labs/agent-skills` - Web design guidelines and React best practices
 - `anthropics/skills` - Frontend design and skill creation tools
 - `vercel-labs/agent-browser` - Browser automation
@@ -262,6 +266,7 @@ Browse more skills at [skills.sh](https://skills.sh)
 All custom agents are stored in `config/claude/agents/` and version-controlled with your dotfiles. When you run the installer on a new Mac, all agents are immediately available.
 
 **Custom Agents:**
+
 - `laravel-simplifier` - Simplifies and refines PHP/Laravel code for clarity and maintainability
 - `laravel-debugger` - Diagnoses and fixes issues in Laravel applications
 - `laravel-feature-builder` - Implements new features in Laravel applications
@@ -306,16 +311,16 @@ Variables load when you enter the directory and unload when you leave.
 
 ## Tool Comparisons
 
-| Old Tool | New Tool | Why Better |
-|----------|----------|------------|
-| z.sh / autojump | zoxide | Smarter frecency algorithm, Rust speed |
-| nvm | fnm | 40x faster, simpler, Rust-based |
-| cat | bat | Syntax highlighting, git integration |
-| ls | eza | Icons, tree view, git status |
-| grep | ripgrep | 5-10x faster, respects .gitignore |
-| find | fd | Simpler syntax, 10x faster |
-| diff | delta | Side-by-side diffs, syntax highlighting |
-| htop | bottom | Better UI, graphs, Rust-based |
+| Old Tool        | New Tool | Why Better                              |
+| --------------- | -------- | --------------------------------------- |
+| z.sh / autojump | zoxide   | Smarter frecency algorithm, Rust speed  |
+| nvm             | fnm      | 40x faster, simpler, Rust-based         |
+| cat             | bat      | Syntax highlighting, git integration    |
+| ls              | eza      | Icons, tree view, git status            |
+| grep            | ripgrep  | 5-10x faster, respects .gitignore       |
+| find            | fd       | Simpler syntax, 10x faster              |
+| diff            | delta    | Side-by-side diffs, syntax highlighting |
+| htop            | bottom   | Better UI, graphs, Rust-based           |
 
 ---
 

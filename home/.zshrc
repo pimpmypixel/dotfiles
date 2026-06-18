@@ -17,7 +17,7 @@ DEFAULT_USER=`whoami`
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git composer macos)
+plugins=(git composer macos fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -116,8 +116,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="/opt/homebrew/opt:$PATH"
 eval "$(pyenv init -)"
-
-alias claude-mem='bun "/Users/andhes/.claude/plugins/cache/thedotmack/claude-mem/10.6.3/scripts/worker-service.cjs"'
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/andhes/.lmstudio/bin"

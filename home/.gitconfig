@@ -52,3 +52,5 @@
 [safe]
 	directory = /Users/andhes/Portal/Packages/DTUFoodIAM
 	directory = /Users/andhes/Portal/Packages/PortalFVDB
+	directory = /Users/andhes/Portal/api_01
+	directory = /Users/andhes/Portal/minimal_01

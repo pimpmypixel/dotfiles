@@ -66,7 +66,8 @@
     "laravel-simplifier@laravel": true,
     "agent-browser@agent-browser": true,
     "claude-mem@thedotmack": true,
-    "andrej-karpathy-skills@karpathy-skills": true
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "ponytail@ponytail": true
   },
   "extraKnownMarketplaces": {
     "thedotmack": {
@@ -80,9 +81,17 @@
         "source": "github",
         "repo": "forrestchang/andrej-karpathy-skills"
       }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
     }
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "tui": "fullscreen"
 }
