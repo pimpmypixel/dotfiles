@@ -4,6 +4,10 @@ ZSH=$HOME/.oh-my-zsh
 # Path to custom themes and plugins
 ZSH_CUSTOM=$HOME/.dotfiles/oh-my-zsh-custom
 
+# Skip oh-my-zsh's compaudit insecure-directory scan on startup (~20ms). Safe on
+# a single-user machine where we control everything in fpath.
+ZSH_DISABLE_COMPFIX="true"
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -17,7 +21,10 @@ DEFAULT_USER=`whoami`
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git composer macos fzf)
+# plugins=(git composer macos fzf)
+# 
+#curl -#fLo- 'https://raw.githubusercontent.com/hyperupcall/autoenv/main/scripts/install.sh' | sh
+plugins=(git composer macos fzf autoenv bun chucknorris)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -126,3 +133,4 @@ fpath=(/Users/andhes/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+source '/opt/homebrew/opt/autoenv/activate.sh'

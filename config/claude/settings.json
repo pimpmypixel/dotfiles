@@ -90,8 +90,8 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "medium",
+  "effortLevel": "low",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
-  "tui": "fullscreen"
+  "theme": "dark"
 }
