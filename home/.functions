@@ -132,16 +132,18 @@ function clone() {
 }
 
 function gbump() {
-  local level=$1
+  local level=${1:-patch}
   if [[ ! "$level" =~ ^(major|minor|patch)$ ]]; then
     echo "Usage: gbump {major|minor|patch}"
     return 1
   fi
 
-  # Get the latest tag, removing 'v' prefix if present
-  local latest_tag=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+  # Fetch tags so local refs aren't stale, then find the highest by version sort
+  git fetch --tags --quiet
+  local latest_tag=$(git tag -l 'v*' | sort -V | tail -1 | sed 's/^v//')
   if [[ -z "$latest_tag" ]]; then
-    latest_tag="0.0.0"
+    echo "No tags in repo."
+    return 1
   fi
 
   # Parse major, minor, patch
