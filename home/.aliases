@@ -36,7 +36,7 @@ alias jest="./node_modules/.bin/jest"
 
 # Git
 alias gpo="git push origin"
-alias push="git push"
+alias push="git push origin --all --tags"
 alias pull="git pull"
 alias uncommit="git reset --soft HEAD~1"
 
