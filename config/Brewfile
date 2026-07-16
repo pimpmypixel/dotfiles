@@ -58,7 +58,7 @@ cask "obsidian"
 cask "core-tunnel"
 cask "supacode"
 cask "drawio"
-cask "stringsfile"
+brew "fortune"
 
 # QuickLook plugins
 cask "qlcolorcode"
